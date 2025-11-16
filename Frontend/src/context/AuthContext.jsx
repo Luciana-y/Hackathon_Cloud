@@ -1,34 +1,42 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
+import { apiFetch } from "../api/api";
 
-const AuthContext = createContext();
+export const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
-  const [token, setToken] = useState(() => sessionStorage.getItem("token") || null);
-  const [role, setRole] = useState(() => sessionStorage.getItem("role") || null);
+export function AuthProvider({ children }) {
+  const [token, setToken] = useState(localStorage.getItem("token"));
+  const [user, setUser] = useState(null);
+  const [role, setRole] = useState(null);
 
-  const login = (token) => {
-    const decoded = jwtDecode(token);
-    const role = decoded.role;
+  useEffect(() => {
+    if (token) {
+      try {
+        const decoded = jwtDecode(token);
+        setRole(decoded.role);
+        setUser(decoded);
+      } catch (err) {
+        console.error("Invalid token");
+        logout();
+      }
+    }
+  }, [token]);
 
-    sessionStorage.setItem("token", token);
-    sessionStorage.setItem("role", role);
-
+  function login(token) {
+    localStorage.setItem("token", token);
     setToken(token);
-    setRole(role);
-  };
+  }
 
-  const logout = () => {
-    sessionStorage.clear();
+  function logout() {
+    localStorage.removeItem("token");
     setToken(null);
+    setUser(null);
     setRole(null);
-  };
+  }
 
   return (
-    <AuthContext.Provider value={{ token, role, login, logout }}>
+    <AuthContext.Provider value={{ token, user, role, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
-};
-
-export const useAuth = () => useContext(AuthContext);
+}

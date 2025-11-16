@@ -1,0 +1,93 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #f0f2f5;
+    margin: 0;
+}
+
+.container {
+    width: 100%;
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+}
+
+header {
+    background-color: #1a3a6d;
+    color: white;
+    padding: 15px 30px;
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    margin: 0;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+#logout-button {
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.main-content {
+    background-color: #ffffff;
+    border-radius: 0 0 8px 8px;
+    padding: 30px;
+    min-height: 400px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+input, textarea, select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.submit-btn {
+    background-color: #1a3a6d;
+    color: white;
+    padding: 14px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.report-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.report-table th, .report-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.status {
+    padding: 5px 10px;
+    color: white;
+    border-radius: 4px;
+}
+
+.status-recibido { background-color: #f0ad4e; }
+.status-en-progreso { background-color: #0275d8; }
+.status-resuelto { background-color: #5cb85c; }

@@ -1,12 +1,14 @@
-import { useAuth } from "./context/AuthContext";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
+import AdminReportsPage from "./pages/AdminReportsPage";
 
 export default function App() {
-  const { token, role } = useAuth();
-
-  console.log("Token:", token, "Role:", role);
-
-  if (!token) return <LoginPage />;
-
-  return <div>Dashboard</div>;
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/admin/reports" element={<AdminReportsPage />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
