@@ -66,8 +66,12 @@ export default function RegisterPage() {
             color: "#1a3a6d"
           }}
         >
-          Crear Cuenta
+          Bienvenido a AlertaUTEC
         </h2>
+
+        <div style={{ marginBottom: "25px", textAlign: "center", color: "#242323ff", fontWeight: "600"}}>
+          <label>Registrate con tu correo universitario</label>
+        </div>
 
         <form
           style={{ display: "flex", flexDirection: "column", gap: "20px" }}

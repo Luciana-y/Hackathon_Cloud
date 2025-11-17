@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { login } from "../api/auth";
 import { useNavigate } from "react-router-dom";
+import Button from "../components/Button";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ export default function LoginPage() {
 
     try {
       await login(correo, password);
-      navigate("/dashboard"); 
+      navigate("/profile");
     } catch (err) {
       setError(err.message || "Credenciales incorrectas");
     }
@@ -49,6 +50,7 @@ export default function LoginPage() {
         <h1 style={{ textAlign: "center", marginBottom: "30px", color: "#1a3a6d" }}>
           Bienvenido a AlertaUTEC 
         </h1>
+
         <div style={{ marginBottom: "25px", textAlign: "center", color: "#242323ff", fontWeight: "600"}}>
           <label>Inicia sesión para continuar</label>
         </div>
@@ -66,8 +68,6 @@ export default function LoginPage() {
                 borderRadius: "8px",
                 border: "1px solid #ccc",
                 fontSize: "1rem",
-                outline: "none",
-                transition: "0.2s",
               }}
             />
           </div>
@@ -84,8 +84,6 @@ export default function LoginPage() {
                 borderRadius: "8px",
                 border: "1px solid #ccc",
                 fontSize: "1rem",
-                outline: "none",
-                transition: "0.2s",
               }}
             />
           </div>
@@ -102,10 +100,7 @@ export default function LoginPage() {
               fontWeight: "bold",
               fontSize: "1.1rem",
               cursor: "pointer",
-              transition: "background-color 0.3s",
             }}
-            onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#15305c")}
-            onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#1a3a6d")}
           >
             {loading ? "Ingresando..." : "Ingresar"}
           </button>
@@ -116,6 +111,11 @@ export default function LoginPage() {
             {error}
           </p>
         )}
+
+        {/* BOTÓN REUTILIZABLE 🔥 */}
+        <Button onClick={() => navigate("/register")}>
+          Crear una cuenta
+        </Button>
       </div>
     </div>
   );
