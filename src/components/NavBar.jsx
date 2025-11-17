@@ -23,7 +23,9 @@ export default function Navbar() {
 
   return (
     <nav style={styles.nav}>
-      <h2 style={styles.logo}>AlertaUTEC</h2>
+      <h2 style={styles.logo}>
+        <Link to="/profile" style={styles.logo}>AlertaUtec</Link>
+        </h2>
 
       {isEstudiante ? (
         <div style={styles.menu}>
@@ -62,7 +64,9 @@ const styles = {
     color: "white",
   },
   logo: {
-    fontSize: "22px",
+    fontSize: "30px",
+    textDecoration: "none",
+    color: "white",
     fontWeight: "bold",
   },
   menu: {

@@ -1,21 +1,23 @@
 const API_URL = import.meta.env.VITE_API_URL;
 
-function getAuthHeaders() {
-  return {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${localStorage.getItem("token")}`
-  };
+export function getAuthHeaders() {
+  const token = localStorage.getItem("token");
+  return token ? { Authorization: `Bearer ${token}` } : {};
 }
+
 
 export async function getMe() {
   const res = await fetch(`${API_URL}/users/me`, {
     headers: getAuthHeaders()
   });
 
-  const data = await res.json();
-  if (!res.ok) throw new Error(data.error);
-  return data;
+  if (!res.ok) {
+    throw new Error("Unauthorized");
+  }
+
+  return res.json();
 }
+
 
 export async function updateMe(payload) {
   const res = await fetch(`${API_URL}/users/me`, {

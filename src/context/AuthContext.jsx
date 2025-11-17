@@ -15,7 +15,7 @@ export function AuthProvider({ children }) {
 
     if (savedToken) {
       try {
-        const decoded = jwtDecode(receivedToken);
+        const decoded = jwtDecode(savedToken);
         // opcional: validar expiración si payload incluye exp
         if (decoded.exp && decoded.exp * 1000 < Date.now()) {
           // token expirado
@@ -38,7 +38,7 @@ export function AuthProvider({ children }) {
       try {
         const parsed = JSON.parse(savedAuth);
         if (parsed?.token) {
-          const decoded = jwtDecode(receivedToken);
+          const decoded = jwtDecode(parsed.token);
           if (decoded.exp && decoded.exp * 1000 < Date.now()) {
             localStorage.removeItem("auth");
             localStorage.removeItem("token");

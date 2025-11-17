@@ -1,0 +1,91 @@
+.report-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 24px;
+  margin-top: 30px;
+}
+
+.report-card {
+  background: #ffffff;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.report-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+/* Imagen */
+.report-image {
+  width: 100%;
+  height: 170px;
+  object-fit: cover;
+  background: #e5e5e5;
+}
+
+/* Cuerpo */
+.report-body {
+  padding: 18px;
+}
+
+/* Categoría y urgencia */
+.report-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.report-category {
+  font-size: 14px;
+  font-weight: bold;
+  color: #153b78; /* color del login */
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Chips de urgencia */
+.urgencia {
+  padding: 4px 10px;
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.urgencia.alta {
+  background: #ffe5e5;
+  color: #c62828;
+}
+
+.urgencia.media {
+  background: #fff4d6;
+  color: #e6a100;
+}
+
+.urgencia.baja {
+  background: #e3f7e3;
+  color: #2e7d32;
+}
+
+/* Descripción */
+.report-desc {
+  margin: 12px 0;
+  color: #555;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* Footer */
+.report-footer {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid #e2e2e2;
+  font-size: 12px;
+  color: #999;
+  word-break: break-all;
+}
