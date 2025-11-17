@@ -1,3 +1,4 @@
+// api/auth.js
 const API_URL = import.meta.env.VITE_API_URL;
 
 export async function login(correo, password) {
@@ -8,10 +9,10 @@ export async function login(correo, password) {
   });
 
   const data = await res.json();
-  if (!res.ok) throw new Error(data.error);
+  if (!res.ok) throw new Error(data.error || "Error en login");
 
-  localStorage.setItem("token", data.token);
-  return data;
+  // Asumimos que backend responde { token: "..." }
+  return { token: data.token };
 }
 
 export async function register(payload) {
@@ -22,7 +23,7 @@ export async function register(payload) {
   });
 
   const data = await res.json();
-  if (!res.ok) throw new Error(data.error);
+  if (!res.ok) throw new Error(data.error || "Error en registro");
 
   return data;
 }

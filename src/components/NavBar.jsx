@@ -1,30 +1,52 @@
+// components/Navbar.jsx
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
   function handleLogout() {
-    logout();          // limpia el usuario
-    navigate("/");     // redirige al login
+    logout();
+    navigate("/");
   }
+
+  // Ejemplo de chequeo de rol: el payload del JWT puede tener:
+  // { role: 'estudiante' }  OR  { roles: ['estudiante', ...] }
+  const isEstudiante =
+    user &&
+    (user.role === "estudiante" ||
+     user.role === "estudaine" /* por si el backend tiene ese valor extraño */ ||
+     (Array.isArray(user.roles) && user.roles.includes("estudiante")) ||
+     (Array.isArray(user.roles) && user.roles.includes("estudaine"))
+    );
 
   return (
     <nav style={styles.nav}>
       <h2 style={styles.logo}>AlertaUTEC</h2>
 
-      {user && (
+      {isEstudiante ? (
         <div style={styles.menu}>
-          <a href="/dashboard" style={styles.link}>Inicio</a>
-          <a href="/report" style={styles.link}>Reportar Incidente</a>
-          <a href="/my-reports" style={styles.link}>Ver mis Reportes</a>
+          <Link to="/reports/new" style={styles.link}>Reportar Incidente</Link>
+          <Link to="/reports/me" style={styles.link}>Ver mis Reportes</Link>
         </div>
+      ) : (
+        // si quieres que cualquier usuario autenticado vea el menú:
+        user && (
+          <div style={styles.menu}>
+            <Link to="/reports/new" style={styles.link}>Reportar Incidente</Link>
+            <Link to="/reports/me" style={styles.link}>Ver mis Reportes</Link>
+          </div>
+        )
       )}
 
-      <button style={styles.logout} onClick={handleLogout}>
-        Cerrar Sesión
-      </button>
+      <div>
+        {user ? (
+          <button style={styles.logout} onClick={handleLogout}>Cerrar Sesión</button>
+        ) : (
+          <button style={styles.logout} onClick={() => navigate("/")}>Iniciar sesión</button>
+        )}
+      </div>
     </nav>
   );
 }

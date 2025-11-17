@@ -1,77 +1,44 @@
 import { useEffect, useState } from "react";
-import { getMyReports } from "../api/reports"; // <- correcto
-import { updateReport } from "../api/reports"; // <- correcto
-import { useParams, useNavigate } from "react-router-dom";
+import { getMyReports } from "../api/reports";
+import ReportList from "../components/ReportList";
+import { useAuth } from "../context/AuthContext";  // <-- ESTE
 
-export default function EditReportPage() {
-  const { id } = useParams();
-  const navigate = useNavigate();
+export default function MyReportsPage() {
+  const { user } = useAuth();
 
-  const [form, setForm] = useState({
-    descripcion: "",
-    urgencia: "",
-    tipo: ""
-  });
+  const [reports, setReports] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    load();
+    async function loadReports() {
+      try {
+        setLoading(true);
+        const data = await getMyReports();
+        setReports(data);
+      } catch (err) {
+        setError(err.message || "Error al cargar reportes");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadReports();
   }, []);
 
-  async function load() {
-    const all = await getMyReports();
-    const rep = all.find(r => r.reporte_id == id);
-
-    if (!rep) return;
-
-    setForm({
-      descripcion: rep.descripcion,
-      urgencia: rep.urgencia,
-      tipo: rep.tipo
-    });
-  }
-
-  async function handleSubmit(e) {
-    e.preventDefault();
-    try {
-      await updateReport(id, form);
-      alert("Reporte actualizado");
-      navigate("/reports/me");
-    } catch (err) {
-      alert(err.message);
-    }
-  }
+  if (!user) return <p className="text-center text-red-500 font-semibold mt-6">Debes iniciar sesión</p>;
+  if (loading) return <p className="text-center mt-6">Cargando...</p>;
+  if (error) return <p className="text-center text-red-500 mt-6">{error}</p>;
 
   return (
-    <div style={{ padding: 40 }}>
-      <h2>Editar Reporte #{id}</h2>
+    <div className="p-6 max-w-6xl mx-auto">
+      <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+        <h1 className="text-2xl font-bold mb-6 text-[#153b78] text-center">
+          Mis Reportes
+        </h1>
 
-      <form onSubmit={handleSubmit}>
-        <label>Tipo</label>
-        <input
-          value={form.tipo}
-          onChange={(e) => setForm({ ...form, tipo: e.target.value })}
-          required
-        />
-
-        <label>Urgencia</label>
-        <select
-          value={form.urgencia}
-          onChange={(e) => setForm({ ...form, urgencia: e.target.value })}
-        >
-          <option>BAJA</option>
-          <option>MEDIA</option>
-          <option>ALTA</option>
-        </select>
-
-        <label>Descripción</label>
-        <textarea
-          value={form.descripcion}
-          onChange={(e) => setForm({ ...form, descripcion: e.target.value })}
-          required
-        />
-
-        <button>Guardar cambios</button>
-      </form>
+        <ReportList reports={reports} />
+      </div>
     </div>
   );
 }

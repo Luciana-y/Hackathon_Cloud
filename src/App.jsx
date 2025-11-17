@@ -4,7 +4,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 
 import AdminDashboard from "./pages/AdminDashboard";
-import NewReport from "./pages/NewReport";
+import CreateReportPage from "./pages/CreateReportPage";
 
 import MyReportsPage from "./pages/MyReportsPage";
 import EditReportPage from "./pages/EditReportPage";
@@ -25,8 +25,8 @@ export default function App() {
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
 
         {/* Reports */}
-        <Route path="/reports/new" element={<NewReport />} />
         <Route path="/reports/me" element={<MyReportsPage />} />
+        <Route path="/reports/new" element={<CreateReportPage />} />
         <Route path="/reports/:id/edit" element={<EditReportPage />} />
         <Route path="/reports/:id/history" element={<ReportHistoryPage />} />
 
