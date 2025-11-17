@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { register } from "../api/auth";
+import Button from "../components/Button";
 import { useNavigate } from "react-router-dom";
 
 export default function RegisterPage() {
@@ -68,11 +69,6 @@ export default function RegisterPage() {
         >
           Bienvenido a AlertaUTEC
         </h2>
-
-        <div style={{ marginBottom: "25px", textAlign: "center", color: "#242323ff", fontWeight: "600"}}>
-          <label>Registrate con tu correo universitario</label>
-        </div>
-
         <form
           style={{ display: "flex", flexDirection: "column", gap: "20px" }}
           onSubmit={handleSubmit}
@@ -166,11 +162,14 @@ export default function RegisterPage() {
               fontWeight: "bold",
               fontSize: "1.1rem",
               cursor: "pointer",
-              transition: "0.3s"
             }}
           >
-            {loading ? "Registrando..." : "Registrarme"}
+            {loading ? "Registrando..." : "Registrarse"}
           </button>
+
+          <Button onClick={() => navigate("/")}>
+            Iniciar Sesión
+          </Button>
         </form>
 
         {msg && (
