@@ -1,24 +1,27 @@
-import { createContext, useState, useEffect } from "react";
-import { getMe } from "../api/users";
+import { createContext, useContext, useState, useEffect } from "react";
 
-export const AuthContext = createContext();
+const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    async function loadUser() {
-      try {
-        const me = await getMe();
-        setUser(me);
-      } catch {}
-    }
-    loadUser();
-  }, []);
+  function login(userData) {
+    setUser(userData);
+  }
+
+  function logout() {
+    setUser(null);
+    localStorage.removeItem("token");
+  }
 
   return (
-    <AuthContext.Provider value={{ user, setUser }}>
+    <AuthContext.Provider value={{ user, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
+}
+
+// ESTA EXPORTACIÓN ES LA QUE TE FALTABA
+export function useAuth() {
+  return useContext(AuthContext);
 }
