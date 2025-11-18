@@ -21,25 +21,36 @@ export default function Navbar() {
      (Array.isArray(user.roles) && user.roles.includes("estudaine"))
     );
 
+  // Verificar si es admin o authority (tienen el mismo nivel)
+  const isAdminOrAuthority =
+    user &&
+    (user.rol === "admin" ||
+     user.rol === "authority" ||
+     user.rol === "administrador" ||
+     user.role === "admin" ||
+     user.role === "authority" ||
+     user.role === "administrador" ||
+     (Array.isArray(user.roles) &&
+       (user.roles.includes("admin") ||
+        user.roles.includes("authority") ||
+        user.roles.includes("administrador"))));
+
   return (
     <nav style={styles.nav}>
       <h2 style={styles.logo}>
         <Link to="/profile" style={styles.logo}>AlertaUtec</Link>
         </h2>
 
-      {isEstudiante ? (
+      {user && (
         <div style={styles.menu}>
+          {isAdminOrAuthority && (
+            <Link to="/admin/dashboard" style={styles.link}>
+              Panel Admin
+            </Link>
+          )}
           <Link to="/reports/new" style={styles.link}>Reportar Incidente</Link>
           <Link to="/reports/me" style={styles.link}>Ver mis Reportes</Link>
         </div>
-      ) : (
-        // si quieres que cualquier usuario autenticado vea el menú:
-        user && (
-          <div style={styles.menu}>
-            <Link to="/reports/new" style={styles.link}>Reportar Incidente</Link>
-            <Link to="/reports/me" style={styles.link}>Ver mis Reportes</Link>
-          </div>
-        )
       )}
 
       <div>

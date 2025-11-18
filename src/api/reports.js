@@ -35,7 +35,10 @@ export async function getReports(status = "PENDIENTE") {
   });
 
   const data = await res.json();
-  if (!res.ok) throw new Error(data.error);
+  if (!res.ok) {
+    const errorMsg = data.error || `Error ${res.status}: ${res.statusText}`;
+    throw new Error(errorMsg);
+  }
   return data;
 }
 
@@ -59,4 +62,25 @@ export async function getReportHistory(id) {
   const data = await res.json();
   if (!res.ok) throw new Error(data.error);
   return data;
+}
+
+// Obtener todos los reportes activos (para admin)
+export async function getAllActiveReports() {
+  const res = await fetch(`${API_URL}/reports?status=ACTIVO`, {
+    headers: getAuthHeaders()
+  });
+
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error);
+  return data;
+}
+
+// Priorizar un reporte (cambiar urgencia)
+export async function prioritizeReport(id, urgencia) {
+  return updateReport(id, { urgencia });
+}
+
+// Cerrar un reporte (cambiar estado a RESUELTO)
+export async function closeReport(id) {
+  return updateReport(id, { estado: "RESUELTO" });
 }

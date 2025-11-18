@@ -13,6 +13,8 @@ import ReportHistoryPage from "./pages/ReportHistoryPage";
 import ProfilePage from "./pages/ProfilePage";
 import EditProfilePage from "./pages/EditProfilePage";
 
+import ProtectedRoute from "./components/ProtectedRoute";
+
 export default function App() {
   return (
     <BrowserRouter>
@@ -22,7 +24,14 @@ export default function App() {
         <Route path="/register" element={<RegisterPage />} />
 
         {/* Dashboard */}
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route
+          path="/admin/dashboard"
+          element={
+            <ProtectedRoute requireAdmin={true}>
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
 
         {/* Reports */}
         <Route path="/reports/me" element={<MyReportsPage />} />
